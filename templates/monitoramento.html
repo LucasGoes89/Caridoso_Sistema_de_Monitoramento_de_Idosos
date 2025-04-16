@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Registrar Monitoramento - {{ idoso.nome }}</h2>
+
+        <form action="{{ url_for('main.salvar_monitoramento') }}" method="POST">
+            <input type="hidden" name="idoso_id" value="{{ idoso.id }}">
+
+            <div class="mb-3">
+                <label for="data_registro" class="form-label">Data:</label>
+                <input type="date" class="form-control" id="data_registro" name="data_registro" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="temperatura" class="form-label">Temperatura (°C):</label>
+                <input type="text" class="form-control" id="temperatura" name="temperatura" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="pressao" class="form-label">Pressão Arterial:</label>
+                <input type="text" class="form-control" id="pressao" name="pressao" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="batimentos" class="form-label">Batimentos Cardíacos (bpm):</label>
+                <input type="text" class="form-control" id="batimentos" name="batimentos" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="observacoes" class="form-label">Observações:</label>
+                <textarea class="form-control" id="observacoes" name="observacoes"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="profissional" class="form-label">Nome do Profissional:</label>
+                <input type="text" class="form-control" id="profissional" name="profissional" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="/monitoramento" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="text-center mt-5 text-muted">
+        <small>&copy; 2025 - Sistema de Monitoramento de Idosos</small>
+    </footer>
+{% endblock %}

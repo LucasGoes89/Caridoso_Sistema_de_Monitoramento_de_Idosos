@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+        th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h2>Relatório de Saúde - {{ idoso.nome }}</h2>
+    <p><strong>Período:</strong> {{ data_inicio }} a {{ data_fim }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Temperatura (°C)</th>
+                <th>Pressão</th>
+                <th>Batimentos</th>
+                <th>Profissional</th>
+                <th>Observações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in dados %}
+            <tr>
+                <td>{{ item.data_registro }}</td>
+                <td>{{ item.temperatura or '-' }}</td>
+                <td>{{ item.pressao or '-' }}</td>
+                <td>{{ item.batimentos or '-' }}</td>
+                <td>{{ item.profissional or '-' }}</td>
+                <td>{{ item.observacoes or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

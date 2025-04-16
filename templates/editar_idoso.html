@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Idoso{% endblock %}
+
+{% block content %}
+<!-- Formulário de edição -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">✏️ Editar Informações do Idoso</h2>
+
+    <div class="form-container">
+        <form action="/atualizar_idoso/{{ idoso.id }}" method="POST">
+            <div class="mb-3">
+                <label for="nome" class="form-label">📛 Nome Completo:</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{ idoso.nome }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="data_nascimento" class="form-label">🎂 Data de Nascimento:</label>
+                <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" value="{{ idoso.data_nascimento }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="endereco" class="form-label">🏡 Endereço:</label>
+                <input type="text" class="form-control" id="endereco" name="endereco" value="{{ idoso.endereco }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contato_responsavel" class="form-label">📞 Contato do Responsável:</label>
+                <input type="text" class="form-control" id="contato_responsavel" name="contato_responsavel" value="{{ idoso.contato_responsavel }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="condicoes_medicas" class="form-label">🚨 Condições Médicas Pré-existentes:</label>
+                <textarea class="form-control" id="condicoes_medicas" name="condicoes_medicas" rows="3">{{ idoso.condicoes_medicas }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="medicamentos" class="form-label">💊 Medicamentos em Uso:</label>
+                <textarea class="form-control" id="medicamentos" name="medicamentos" rows="3">{{ idoso.medicamentos }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="ultima_avaliacao" class="form-label">📆 Última Avaliação:</label>
+                <input type="date" class="form-control" id="ultima_avaliacao" name="ultima_avaliacao" value="{{ idoso.ultima_avaliacao }}">
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Salvar Alterações
+                </button>
+                <a href="/idosos" class="btn btn-secondary btn-cancel">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

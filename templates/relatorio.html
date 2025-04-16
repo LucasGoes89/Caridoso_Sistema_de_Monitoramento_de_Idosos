@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Relatórios de Saúde</h2>
+    <form method="POST" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label for="idoso" class="form-label">Idoso</label>
+            <select name="idoso" class="form-select" required>
+                <option value="">Selecione</option>
+                {% for i in idosos %}
+                    <option value="{{ i.id }}" {% if idoso and i.id == idoso.id %}selected{% endif %}>{{ i.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="data_inicio" class="form-label">Data Início</label>
+            <input type="date" name="data_inicio" class="form-control" required value="{{ data_inicio }}">
+        </div>
+        <div class="col-md-3">
+            <label for="data_fim" class="form-label">Data Fim</label>
+            <input type="date" name="data_fim" class="form-control" required value="{{ data_fim }}">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Gerar</button>
+        </div>
+    </form>
+
+    {% if dados %}
+        <h4>Relatório de {{ idoso.nome }}</h4>
+
+        <!-- Botão para exportar para Excel -->
+        <a href="{{ url_for('main.exportar_excel', idoso_id=idoso.id, data_inicio=data_inicio, data_fim=data_fim) }}"
+           class="btn btn-success mb-3" target="_blank">
+            Exportar para Excel
+        </a>
+
+        <!-- Gráficos -->
+        <canvas id="graficoTemperatura"></canvas>
+        <canvas id="graficoBatimentos" class="mt-4"></canvas>
+        <canvas id="graficoPressao" class="mt-4"></canvas>
+    {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    {% if dados %}
+    const dados = {{ dados|tojson }};
+
+    const labels = dados.map(d => d.data_registro);
+    const temperaturas = dados.map(d => d.temperatura);
+    const batimentos = dados.map(d => d.batimentos);
+    const pressoes = dados.map(d => d.pressao);
+
+    new Chart(document.getElementById('graficoTemperatura'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Temperatura (°C)',
+                data: temperaturas,
+                borderColor: 'orange',
+                tension: 0.2
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('graficoBatimentos'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Batimentos Cardíacos',
+                data: batimentos,
+                borderColor: 'red',
+                tension: 0.2
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('graficoPressao'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Pressão',
+                data: pressoes,
+                borderColor: 'blue',
+                tension: 0.2
+            }]
+        }
+    });
+    {% endif %}
+</script>
+
+{% endblock %}

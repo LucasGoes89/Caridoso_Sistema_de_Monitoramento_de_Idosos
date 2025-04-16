@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="text-center mb-4">🧓 Sistema Caridoso!</h2>
+        <h2>Cadastro de Usuário</h2>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p>Já tem conta? <a href="{{ url_for('main.login') }}">Faça login</a></p>
+    </div>
+</body>
+</html>
+

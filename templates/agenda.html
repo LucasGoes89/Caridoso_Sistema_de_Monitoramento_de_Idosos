@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Agenda de Monitoramento de Saúde</h2>
+
+    <!-- FullCalendar -->
+    <div id="calendar"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/locale/pt-br.js"></script> <!-- Incluindo o idioma português -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" />
+
+<script>
+    $(document).ready(function() {
+        // Inicializa o FullCalendar
+        $('#calendar').fullCalendar({
+            locale: 'pt-br',  // Define o idioma como português do Brasil
+            events: {{ eventos|tojson }},  // Passa os eventos para o calendário
+
+            // Ação ao clicar em um evento (excluir evento)
+            eventClick: function(event, jsEvent, view) {
+                var confirmDelete = confirm("Deseja realmente excluir este evento?");
+                if (confirmDelete) {
+                    $.ajax({
+                        url: '/agenda/excluir_evento',
+                        method: 'POST',
+                        data: {
+                            id: event.id  // Envia o ID do evento a ser excluído
+                        },
+                        success: function(response) {
+                            // Remove o evento do calendário
+                            $('#calendar').fullCalendar('removeEvents', event.id);
+                            alert('Evento excluído com sucesso!');
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Erro ao excluir evento: ' + error);
+                        }
+                    });
+                }
+            },
+
+            // Ação ao clicar em um dia específico (adicionar evento)
+            dayClick: function(date) {
+                var eventoData = prompt("Informe o nome do compromisso:");
+                if (eventoData) {
+                    $.ajax({
+                        url: '/agenda/adicionar_evento',
+                        method: 'POST',
+                        data: {
+                            titulo: eventoData,
+                            data: date.format()  // Passa a data selecionada
+                        },
+                        success: function(response) {
+                            // Adiciona o evento ao calendário
+                            $('#calendar').fullCalendar('renderEvent', {
+                                id: response.id, // ID retornado do servidor após salvar
+                                title: eventoData,
+                                start: date,
+                                allDay: true
+                            });
+                            alert('Evento adicionado com sucesso!');
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Erro ao adicionar evento: ' + error);
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendar');
+  
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: {{ eventos|tojson }},
+        eventClick: function(info) {
+          if (confirm(`Deseja remover o evento: "${info.event.title}"?`)) {
+            fetch(`/agenda/remover_evento/${info.event.id}`, {
+              method: 'POST',
+            })
+            .then(() => {
+              info.event.remove();  // Remove do calendário na tela
+            });
+          }
+        }
+      });
+  
+      calendar.render();
+    });
+  </script>
+{% endblock %}

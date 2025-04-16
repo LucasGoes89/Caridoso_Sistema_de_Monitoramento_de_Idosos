@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📋 Selecionar Idoso para Monitoramento</h2>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>📛 Nome</th>
+                <th>🎂 Idade</th>
+                <th>📞 Contato</th>
+                <th>📆 Última Avaliação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for idoso in idosos %}
+            <tr>
+                <td>{{ idoso.nome }}</td>
+                <td>{{ idoso.idade }} anos</td>
+                <td>{{ idoso.contato_responsavel }}</td>
+                <td>{{ idoso.ultima_avaliacao }}</td>
+                <td>
+                    <a href="{{ url_for('main.monitoramento_form', idoso_id=idoso.id) }}" class="btn btn-primary btn-sm">📋 Monitorar</a>
+                    <a href="{{ url_for('main.historico_monitoramento', idoso_id=idoso.id) }}" class="btn btn-info btn-sm">📈 Histórico</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Nenhum idoso encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

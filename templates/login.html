@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Caridoso</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+</head>
+<body>
+    
+    <div class="login-container">
+        <h2 class="text-center mb-4">🧓 Sistema Caridoso!</h2>
+
+        <h2>Login</h2>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Não tem conta? <a href="{{ url_for('main.register') }}">Cadastre-se aqui</a></p>
+    </div>
+</body>
+
+</html>

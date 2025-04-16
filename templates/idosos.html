@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">👵 Idosos Cadastrados</h1>
+            <a href="{{ url_for('main.adicionar_idoso') }}" class="btn btn-success btn-add">➕ Adicionar Idoso</a>   
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <!-- <th>📷 Foto</th> --> 
+                    <th>📛 Nome</th>
+                    <th>🎂 Idade</th>
+                    <th>📞 Contato</th>
+                    <th>🚨 Condições Médicas</th>
+                    <th>💊 Medicamentos</th>
+                    <th>📆 Última Avaliação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for idoso in idosos %}
+                <tr>
+                    <!-- <td><img src="{{ url_for('static', filename='images/default.png') }}" class="profile-pic"></td> -->
+                    <td>{{ idoso.nome }}</td>
+                    <td>{{ idoso.idade }} anos</td>
+                    <td>{{ idoso.contato_responsavel }}</td>
+                    <td>{{ idoso.condicoes_medicas }}</td>
+                    <td>{{ idoso.medicamentos }}</td>
+                    <td>{{ idoso.ultima_avaliacao }}</td>
+                    <td>
+                        <a href="{{ url_for('main.editar_idoso', idoso_id=idoso.id) }}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                        <form action="{{ url_for('main.remover_idoso', idoso_id=idoso.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja remover este idoso?');">
+                            <button type="submit" class="btn btn-danger btn-sm">❌ Remover</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="text-center mt-5 text-muted">
+        <small>&copy; 2025 - Sistema de Monitoramento de Idosos</small>
+    </footer>
+{% endblock %}

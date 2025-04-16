@@ -1,0 +1,194 @@
+/* ========== Estilos Globais ========== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #000;
+    padding-top: 3.5rem;
+}
+
+/* ========== Login ========== */
+.login-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 300px;
+    margin: 0 auto;
+    transition: font-size 0.2s ease;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ========== Botões ========== */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+.logout {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.logout:hover {
+    background: #c0392b;
+}
+
+.btn.monitorar {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn.monitorar:hover {
+    background-color: #0056b3;
+}
+
+.btn.historico {
+    background-color: #17a2b8;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn.historico:hover {
+    background-color: #117a8b;
+}
+
+/* ========== Cabeçalho ========== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+/* ========== Conteúdo ========== */
+.page-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.welcome {
+    font-size: 1.2em;
+}
+
+.idoso-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.idoso-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f5f5f5;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: background 0.3s ease;
+}
+
+.idoso-card:hover {
+    background: #e6f0ff;
+}
+
+.idoso-nome {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.idoso-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+/* ========== Modo Escuro ========== */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark-mode button {
+    background: #45a049;
+    color: #fff;
+}
+
+body.dark-mode button:hover {
+    background: #388e3c;
+}
+
+body.dark-mode .header,
+body.dark-mode .page-title,
+body.dark-mode .idoso-nome {
+    color: #fff;
+}
+
+body.dark-mode .idoso-card {
+    background-color: #444;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark-mode .idoso-card:hover {
+    background-color: #555;
+}
+
+body.dark-mode .idoso-acoes a {
+    color: #fff;
+}
+
+.acessibilidade {
+    z-index: 1050;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.btn-cancel {
+    margin-left: 10px;
+}

@@ -1,0 +1,42 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Sistema Caridoso{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Dashboard - Visão Geral</h1>
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Idosos Cadastrados</h5>
+                    <p class="card-text display-4">👵🧓 {{ total_idosos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Alertas de Saúde Recentes</h5>
+                    <p class="card-text display-4">⚠️ 3</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Eventos Agendados</h5>
+                    <p class="card-text display-4">📅 5</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Últimos Registros de Saúde</h5>
+                    <p class="card-text display-4">📋 10</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

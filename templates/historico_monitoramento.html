@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <h3>Histórico de Saúde - {{ idoso.nome }}</h3>
+
+    <a href="{{ url_for('main.monitoramento_form', idoso_id=idoso.id) }}" class="btn btn-success mb-3">+ Novo Monitoramento</a>
+    <a href="/monitoramento" class="btn btn-secondary mb-3">Voltar</a>
+
+    {% if monitoramentos %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Temperatura (°C)</th>
+                    <th>Pressão</th>
+                    <th>Batimentos (bpm)</th>
+                    <th>Observações</th>
+                    <th>Profissional</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in monitoramentos %}
+                <tr>
+                    <td>{{ r.data_registro }}</td>
+                    <td>{{ r.temperatura }}</td>
+                    <td>{{ r.pressao }}</td>
+                    <td>{{ r.batimentos }}</td>
+                    <td>{{ r.observacoes }}</td>
+                    <td>{{ r.profissional }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">Nenhum registro de saúde encontrado para este idoso.</p>
+    {% endif %}
+{% endblock %}
