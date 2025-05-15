@@ -14,8 +14,15 @@ def home():
         return redirect(url_for('main.login'))
 
     total_idosos = Idoso.query.count()
-    return render_template('home.html', total_idosos=total_idosos)
+    total_monitoramentos = MonitoramentoSaude.query.count()
+    total_usuarios = User.query.count()  # Conta total de usuários cadastrados
 
+    return render_template(
+        'home.html',
+        total_idosos=total_idosos,
+        total_monitoramentos=total_monitoramentos,
+        total_usuarios=total_usuarios  # Passa para o template
+    )
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -149,19 +156,42 @@ def configuracoes():
     if 'user_id' not in session:
         return redirect(url_for('main.login'))
 
+    mensagem = ''
+    user = User.query.get(session['user_id'])
+
     if request.method == 'POST':
-        user = User.query.get(session['user_id'])
-        senha_atual = request.form['senha_atual']
-        nova_senha = request.form['nova_senha']
+        # Verifica se está alterando a senha
+        if 'senha_atual' in request.form and 'nova_senha' in request.form:
+            senha_atual = request.form['senha_atual']
+            nova_senha = request.form['nova_senha']
 
-        if user and user.check_password(senha_atual):
-            user.set_password(nova_senha)
-            db.session.commit()
-            return render_template('configuracoes.html', mensagem='Senha alterada com sucesso.')
-        else:
-            return render_template('configuracoes.html', mensagem='Senha atual incorreta.')
+            if user and user.check_password(senha_atual):
+                user.set_password(nova_senha)
+                db.session.commit()
+                mensagem = 'Senha alterada com sucesso.'
+            else:
+                mensagem = 'Senha atual incorreta.'
 
-    return render_template('configuracoes.html')
+        # Verifica se está salvando preferências
+        if 'dark_mode' in request.form or 'large_font' in request.form:
+            dark_mode = request.form.get('dark_mode') == 'on'
+            large_font = request.form.get('large_font') == 'on'
+            session['preferences'] = {
+                'dark_mode': dark_mode,
+                'large_font': large_font
+            }
+            mensagem = 'Preferências salvas com sucesso.'
+
+    preferencias = session.get('preferences', {'dark_mode': False, 'large_font': False})
+
+    usuarios = User.query.all()  # BUSCA TODOS OS USUÁRIOS
+
+    return render_template(
+        'configuracoes.html',
+        mensagem=mensagem,
+        preferencias=preferencias,
+        usuarios=usuarios  # PASSA PARA O TEMPLATE
+    )
 
 @main.route('/agenda', methods=['GET', 'POST'])
 def agenda():

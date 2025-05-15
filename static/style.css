@@ -192,3 +192,21 @@ body.dark-mode .idoso-acoes a {
 .btn-cancel {
     margin-left: 10px;
 }
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .container, .container * {
+        visibility: visible;
+    }
+    .container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    button, a.btn, nav, header, footer {
+        display: none !important;
+    }
+}

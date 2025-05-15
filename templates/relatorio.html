@@ -25,19 +25,59 @@
         </div>
     </form>
 
+                <!-- Botão de impressão -->
+                <button onclick="imprimirRelatorio()" class="btn btn-secondary mb-3">
+                    Imprimir Relatório
+                </button>
+
     {% if dados %}
-        <h4>Relatório de {{ idoso.nome }}</h4>
+        <div id="relatorio-gerado">
+            <h4 class="mt-4">Relatório de {{ idoso.nome }}</h4>
 
-        <!-- Botão para exportar para Excel -->
-        <a href="{{ url_for('main.exportar_excel', idoso_id=idoso.id, data_inicio=data_inicio, data_fim=data_fim) }}"
-           class="btn btn-success mb-3" target="_blank">
-            Exportar para Excel
-        </a>
+            <!-- Informações básicas do paciente -->
+            <div class="mb-4">
+                <p><strong>Data de Nascimento:</strong> {{ idoso.data_nascimento }}</p>
+                <p><strong>Endereço:</strong> {{ idoso.endereco }}</p>
+                <p><strong>Contato do Responsável:</strong> {{ idoso.contato_responsavel }}</p>
+                <p><strong>Condições Médicas:</strong> {{ idoso.condicoes_medicas or 'N/A' }}</p>
+                <p><strong>Medicamentos em Uso:</strong> {{ idoso.medicamentos or 'N/A' }}</p>
+                <p><strong>Última Avaliação:</strong> {{ idoso.ultima_avaliacao if idoso.ultima_avaliacao else 'N/A' }}</p>
+            </div>
 
-        <!-- Gráficos -->
-        <canvas id="graficoTemperatura"></canvas>
-        <canvas id="graficoBatimentos" class="mt-4"></canvas>
-        <canvas id="graficoPressao" class="mt-4"></canvas>
+            <!-- Tabela com dados monitorados -->
+            <div class="table-responsive mb-4">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Data</th>
+                            <th>Temperatura (°C)</th>
+                            <th>Pressão</th>
+                            <th>Batimentos (bpm)</th>
+                            <th>Observações</th>
+                            <th>Profissional</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in dados %}
+                        <tr>
+                            <td>{{ d.data_registro }}</td>
+                            <td>{{ d.temperatura }}</td>
+                            <td>{{ d.pressao }}</td>
+                            <td>{{ d.batimentos }}</td>
+                            <td>{{ d.observacoes or '—' }}</td>
+                            <td>{{ d.profissional or '—' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Gráficos -->
+            <canvas id="graficoTemperatura"></canvas>
+            <canvas id="graficoBatimentos" class="mt-4"></canvas>
+            <canvas id="graficoPressao" class="mt-4"></canvas>
+        </div>
     {% endif %}
 </div>
 
@@ -90,6 +130,27 @@
         }
     });
     {% endif %}
-</script>
 
+    function imprimirRelatorio() {
+        const canvasList = document.querySelectorAll('canvas');
+        canvasList.forEach(canvas => {
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL("image/png");
+            img.className = 'd-block mb-4';
+            img.style.maxWidth = "100%";
+            canvas.parentNode.insertBefore(img, canvas);
+            canvas.style.display = 'none';
+        });
+
+        setTimeout(() => {
+            window.print();
+            canvasList.forEach(canvas => {
+                canvas.style.display = 'block';
+                if (canvas.nextSibling?.tagName === 'IMG') {
+                    canvas.nextSibling.remove();
+                }
+            });
+        }, 500);
+    }
+</script>
 {% endblock %}
